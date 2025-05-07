@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeknoParrot Compatibility Viewer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+        body {
+            padding-top: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .game-icon {
+            width: 40px;
+            height: 40px;
+            overflow: hidden;
+            border-radius: 6px;
+        }
+        .game-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .click-row {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .click-row:hover {
+            background-color: rgba(0,123,255,0.05);
+        }
+        .sortable {
+            cursor: pointer;
+        }
+        .sortable:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+        .game-detail-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        .game-detail-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .back-button {
+            cursor: pointer;
+        }
+        .compatibility-legend {
+            font-size: 0.875rem;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .json-input {
+            min-height: 200px;
+        }
+        #loadFromJsonBtn {
+            margin-top: 10px;
+        }
+        .file-upload {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>TeknoParrot Compatibility</h1>
+            <div class="d-flex align-items-center">
+                <a href="https://github.com/teknogods/TeknoParrotUIThumbnails" class="btn btn-outline-primary me-2" target="_blank">
+                    <i class="bi bi-github"></i> GitHub
+                </a>
+            </div>
+        </div>
+        
+        <!-- JSON Upload Section -->
+        <div id="jsonUpload" class="card mb-4">
+            <div class="card-header">Load Game Compatibility Data</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="jsonFileInput" class="form-label">Select gameCompatibility.json file:</label>
+                    <input class="form-control" type="file" id="jsonFileInput" accept=".json">
+                </div>
+                <div class="text-center">
+                    <button id="loadFromFileBtn" class="btn btn-primary">Load Data from File</button>
+                </div>
+                <hr>
+                <div class="text-center">
+                    <button id="loadDemoDataBtn" class="btn btn-secondary">Load Demo Data</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Game List View -->
+        <div id="gameList" style="display: none;">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="bi bi-list-check me-2"></i>Supported Games
+                    </div>
+                    <div class="input-group" style="max-width: 300px">
+                        <input type="text" id="searchGames" class="form-control" placeholder="Search games...">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col" style="width: 60px"></th>
+                                    <th scope="col" class="sortable" data-sort="name">
+                                        <i class="bi bi-sort-alpha-down me-1"></i>Name
+                                    </th>
+                                    <th scope="col" class="sortable" data-sort="status">
+                                        <i class="bi bi-sort-alpha-down me-1"></i>Status
+                                    </th>
+                                    <th scope="col" class="sortable" data-sort="genre">
+                                        <i class="bi bi-sort-alpha-down me-1"></i>Genre
+                                    </th>
+                                    <th scope="col" class="sortable" data-sort="system">
+                                        <i class="bi bi-sort-alpha-down me-1"></i>System
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="gameTableBody">
+                                <!-- Games will be loaded here -->
+                                <tr>
+                                    <td colspan="5" class="text-center py-4">No data loaded yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card-footer">
+                    <div class="compatibility-legend d-flex flex-wrap gap-3 justify-content-center">
+                        <div class="legend-item">
+                            <i class="bi bi-check-circle-fill text-success"></i> Perfect - Works flawlessly
+                        </div>
+                        <div class="legend-item">
+                            <i class="bi bi-check-circle text-info"></i> Great - Minor issues
+                        </div>
+                        <div class="legend-item">
+                            <i class="bi bi-exclamation-circle text-warning"></i> Issues - Playable with problems
+                        </div>
+                        <div class="legend-item">
+                            <i class="bi bi-x-circle text-danger"></i> Unplayable - Major issues
+                        </div>
+                        <div class="legend-item">
+                            <i class="bi bi-question-circle text-secondary"></i> Unknown - Not tested
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Game Detail View (Hidden by default) -->
+        <div id="gameDetail" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <span class="back-button me-2" onclick="showGameList()"><i class="bi bi-arrow-left"></i></span>
+                        <h5 class="mb-0" id="detailGameName">Game Name</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <div class="game-detail-icon mx-auto">
+                                <img id="detailGameIcon" src="https://raw.githubusercontent.com/teknogods/TeknoParrotUIThumbnails/master/Icons/noprofilepic.jpg" alt="Game Icon">
+                            </div>
+                            <div class="mb-3">
+                                <h6>Compatibility Status</h6>
+                                <div id="detailOverallStatus" class="badge bg-secondary">Unknown</div>
+                            </div>
+                            <div class="mb-3">
+                                <h6>GPU Compatibility</h6>
+                                <div class="d-flex flex-column gap-2 align-items-center">
+                                    <div id="detailNvidiaStatus">NVIDIA: <span class="badge bg-secondary">Unknown</span></div>
+                                    <div id="detailAmdStatus">AMD: <span class="badge bg-secondary">Unknown</span></div>
+                                    <div id="detailIntelStatus">Intel: <span class="badge bg-secondary">Unknown</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <h6>Description</h6>
+                                <p id="detailDescription">No description available.</p>
+                            </div>
+                            <div class="mb-3">
+                                <h6>Hardware</h6>
+                                <p id="detailHardware">Unknown hardware</p>
+                            </div>
+                            <div class="mb-3">
+                                <h6>Genre</h6>
+                                <p id="detailGenre">Unknown genre</p>
+                            </div>
+                            
+                            <div class="mb-3" id="detailSetupSection">
+                                <h6>Setup Details</h6>
+                                <div id="detailSetupDetails">
+                                    <!-- Setup details will be inserted here -->
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3" id="detailIssuesSection">
+                                <h6>Common Issues</h6>
+                                <div id="detailCommonIssues">
+                                    <!-- Common issues will be inserted here -->
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3" id="detailFeaturesSection">
+                                <h6>Features Not Emulated</h6>
+                                <ul id="detailFeaturesNotEmulated">
+                                    <!-- Features not emulated will be inserted here -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Global variables
+        let allGames = [];
+        let currentSort = { column: 'name', ascending: true };
+        
+        // Status text and classes mapping
+        const statusMap = {
+            0: { text: "Perfect", iconClass: "bi-check-circle-fill text-success" },
+            1: { text: "Great", iconClass: "bi-check-circle text-info" },
+            2: { text: "Issues", iconClass: "bi-exclamation-circle text-warning" },
+            3: { text: "Unplayable", iconClass: "bi-x-circle text-danger" },
+            4: { text: "Unknown", iconClass: "bi-question-circle text-secondary" }
+        };
+        
+        // Badge colors for statuses
+        const badgeColors = {
+            0: "bg-success",
+            1: "bg-info",
+            2: "bg-warning",
+            3: "bg-danger",
+            4: "bg-secondary"
+        };
+        
+        // Load data from file
+        document.getElementById('loadFromFileBtn').addEventListener('click', function() {
+            const fileInput = document.getElementById('jsonFileInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select a JSON file first.');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const jsonData = JSON.parse(event.target.result);
+                    processGameData(jsonData);
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                    alert('Error parsing JSON file. Make sure it\'s a valid JSON file.');
+                }
+            };
+            
+            reader.readAsText(file);
+        });
+        
+        // Load demo data
+        document.getElementById('loadDemoDataBtn').addEventListener('click', function() {
+            // Sample data with a few games
+            const sampleData = [
+                {
+                    "Id": "2Spicy",
+                    "Name": "Too Spicy",
+                    "Hardware": "SEGA Lindbergh Red",
+                    "Description": "Also known as 2Spicy, Too Spicy is a Light Gun Game made by Sega that is notable for also having characteristics of a Third Person Shooter. It was released on April 2007.",
+                    "IconUrl": "https://raw.githubusercontent.com/teknogods/TeknoParrotUIThumbnails/master/Icons/2Spicy.png",
+                    "Genre": "Shooter",
+                    "MultiplayerType": 1,
+                    "MultiplayerDetails": null,
+                    "NvidiaSupport": 1,
+                    "AmdSupport": 2,
+                    "IntelSupport": 4,
+                    "SetupDetails": [],
+                    "CommonIssues": [
+                      {
+                        "Question": "Sound isn't working",
+                        "Answer": "Please make sure your TeknoParrot is updated, this was an old issue that was resolved."
+                      }
+                    ],
+                    "FeaturesNotEmulated": [],
+                    "OverallStatus": 1
+                },
+                {
+                    "Id": "AfterburnerClimax",
+                    "Name": "After Burner Climax",
+                    "Hardware": "SEGA Lindbergh",
+                    "Description": "After Burner Climax is an arcade video game developed by Sega AM2 and published by Sega in 2006.",
+                    "IconUrl": "https://raw.githubusercontent.com/teknogods/TeknoParrotUIThumbnails/master/Icons/AfterburnerClimax.png",
+                    "Genre": "Flying",
+                    "MultiplayerType": 0,
+                    "MultiplayerDetails": "Single player only",
+                    "NvidiaSupport": 0,
+                    "AmdSupport": 0,
+                    "IntelSupport": 3,
+                    "SetupDetails": [
+                      {
+                        "Category": "Controls",
+                        "Details": "Standard flight controls with throttle and joystick",
+                        "BulletPoints": [
+                          "Use a controller for best experience",
+                          "Keyboard controls are also supported"
+                        ]
+                      }
+                    ],
+                    "CommonIssues": [],
+                    "FeaturesNotEmulated": [
+                      "Force feedback"
+                    ],
+                    "OverallStatus": 0
+                },
+                {
+                    "Id": "InitialD4",
+                    "Name": "Initial D Arcade Stage 4",
+                    "Hardware": "SEGA Lindbergh",
+                    "Description": "Initial D Arcade Stage 4 is a racing arcade game based on the popular manga and anime series Initial D.",
+                    "IconUrl": "https://raw.githubusercontent.com/teknogods/TeknoParrotUIThumbnails/master/Icons/InitialD4.png",
+                    "Genre": "Racing",
+                    "MultiplayerType": 2,
+                    "MultiplayerDetails": "Local multiplayer supported",
+                    "NvidiaSupport": 0,
+                    "AmdSupport": 1,
+                    "IntelSupport": 2,
+                    "SetupDetails": [
+                      {
+                        "Category": "Controls",
+                        "Details": "Recommended wheel rotation: 900 degrees",
+                        "BulletPoints": []
+                      }
+                    ],
+                    "CommonIssues": [
+                      {
+                        "Question": "Game crashes at startup",
+                        "Answer": "Make sure you have the correct game files and your GPU drivers are updated."
+                      }
+                    ],
+                    "FeaturesNotEmulated": [
+                      "Card saving system"
+                    ],
+                    "OverallStatus": 0
+                }
+            ];
+            
+            processGameData(sampleData);
+        });
+        
+        // Process game data and show game list
+        function processGameData(jsonData) {
+            // Remove any invalid entries
+            allGames = jsonData.filter(game => game.Id && game.Name);
+            
+            // If no valid games found
+            if (allGames.length === 0) {
+                alert('No valid game data found in the JSON file.');
+                return;
+            }
+            
+            // Sort games by name initially
+            sortGames('name', true);
+            
+            // Hide JSON upload section and show game list
+            document.getElementById('jsonUpload').style.display = 'none';
+            document.getElementById('gameList').style.display = 'block';
+            
+            // Render the game table
+            renderGameTable();
+        }
+        
+        // Render the game table with current data
+        function renderGameTable() {
+            const tableBody = document.getElementById('gameTableBody');
+            tableBody.innerHTML = '';
+            
+            allGames.forEach(game => {
+                const status = statusMap[game.OverallStatus] || statusMap[4];
+                
+                const row = document.createElement('tr');
+                row.className = 'click-row';
+                row.onclick = () => showGameDetail(game.Id);
+                
+                const placeholder = "https://raw.githubusercontent.com/teknogods/TeknoParrotUIThumbnails/master/Icons/noprofilepic.jpg";
+                
+                row.innerHTML = `
+                    <td class="align-middle">
+                        <div class="game-icon">
+                            <img src="${game.IconUrl || placeholder}" alt="${game.Name}" 
+                                 onerror="this.onerror=null; this.src='${placeholder}';">
+                        </div>
+                    </td>
+                    <td class="align-middle fw-medium">${game.Name || 'Unknown Game'}</td>
+                    <td class="align-middle" data-value="${game.OverallStatus}">
+                        <span class="${status.iconClass.split(' ')[1]}">
+                            <i class="bi ${status.iconClass.split(' ')[0]} me-1"></i>
+                            <span class="status-text">${status.text}</span>
+                        </span>
+                    </td>
+                    <td class="align-middle">${game.Genre || 'Unknown'}</td>
+                    <td class="align-middle">
+                        ${game.Hardware ? 
+                          `<span class="badge bg-primary">
+                              <i class="bi bi-cpu me-1"></i>
+                              ${game.Hardware}
+                           </span>` : 
+                          `<span class="badge bg-secondary">
+                              <i class="bi bi-question-circle me-1"></i>
+                              Unknown
+                           </span>`}
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Show the detail view for a specific game
+        function showGameDetail(gameId) {
+            const game = allGames.find(g => g.Id === gameId);
+            if (!game) return;
+            
+            const placeholder = "https://raw.githubusercontent.com/teknogods/TeknoParrotUIThumbnails/master/Icons/noprofilepic.jpg";
+            
+            // Set basic details
+            document.getElementById('detailGameName').textContent = game.Name || 'Unknown Game';
+            document.getElementById('detailGameIcon').src = game.IconUrl || placeholder;
+            document.getElementById('detailGameIcon').onerror = function() { this.src = placeholder; };
+            document.getElementById('detailDescription').textContent = game.Description || 'No description available.';
+            document.getElementById('detailHardware').textContent = game.Hardware || 'Unknown hardware';
+            document.getElementById('detailGenre').textContent = game.Genre || 'Unknown genre';
+            
+            // Set status badges
+            const overallStatus = statusMap[game.OverallStatus] || statusMap[4];
+            document.getElementById('detailOverallStatus').className = `badge ${badgeColors[game.OverallStatus] || 'bg-secondary'}`;
+            document.getElementById('detailOverallStatus').innerHTML = `
+                <i class="bi ${overallStatus.iconClass.split(' ')[0]} me-1"></i>
+                ${overallStatus.text}
+            `;
+            
+            // GPU compatibility
+            setGpuStatus('detailNvidiaStatus', 'NVIDIA', game.NvidiaSupport);
+            setGpuStatus('detailAmdStatus', 'AMD', game.AmdSupport);
+            setGpuStatus('detailIntelStatus', 'Intel', game.IntelSupport);
+            
+            // Setup details
+            const setupSection = document.getElementById('detailSetupSection');
+            const setupDetails = document.getElementById('detailSetupDetails');
+            setupDetails.innerHTML = '';
+            
+            if (game.SetupDetails && game.SetupDetails.length > 0) {
+                setupSection.style.display = 'block';
+                game.SetupDetails.forEach(setup => {
+                    const setupDiv = document.createElement('div');
+                    setupDiv.className = 'card mb-2';
+                    setupDiv.innerHTML = `
+                        <div class="card-header py-2">${setup.Category || 'General'}</div>
+                        <div class="card-body py-2">
+                            <p class="mb-1">${setup.Details || ''}</p>
+                            ${setup.BulletPoints && setup.BulletPoints.length > 0 ? 
+                              '<ul class="mb-0">' + 
+                              setup.BulletPoints.map(point => `<li>${point}</li>`).join('') + 
+                              '</ul>' : ''}
+                        </div>
+                    `;
+                    setupDetails.appendChild(setupDiv);
+                });
+            } else {
+                setupSection.style.display = 'none';
+            }
+            
+            // Common issues
+            const issuesSection = document.getElementById('detailIssuesSection');
+            const commonIssues = document.getElementById('detailCommonIssues');
+            commonIssues.innerHTML = '';
+            
+            if (game.CommonIssues && game.CommonIssues.length > 0) {
+                issuesSection.style.display = 'block';
+                game.CommonIssues.forEach(issue => {
+                    const issueDiv = document.createElement('div');
+                    issueDiv.className = 'card mb-2';
+                    issueDiv.innerHTML = `
+                        <div class="card-header py-2">${issue.Question || 'Issue'}</div>
+                        <div class="card-body py-2">
+                            <p class="mb-0">${issue.Answer || 'No solution provided.'}</p>
+                        </div>
+                    `;
+                    commonIssues.appendChild(issueDiv);
+                });
+            } else {
+                issuesSection.style.display = 'none';
+            }
+            
+            // Features not emulated
+            const featuresSection = document.getElementById('detailFeaturesSection');
+            const featuresNotEmulated = document.getElementById('detailFeaturesNotEmulated');
+            featuresNotEmulated.innerHTML = '';
+            
+            if (game.FeaturesNotEmulated && game.FeaturesNotEmulated.length > 0) {
+                featuresSection.style.display = 'block';
+                game.FeaturesNotEmulated.forEach(feature => {
+                    const li = document.createElement('li');
+                    li.textContent = feature;
+                    featuresNotEmulated.appendChild(li);
+                });
+            } else {
+                featuresSection.style.display = 'none';
+            }
+            
+            // Switch views
+            document.getElementById('gameList').style.display = 'none';
+            document.getElementById('gameDetail').style.display = 'block';
+        }
+        
+        // Helper function to set GPU status display
+        function setGpuStatus(elementId, gpuName, status) {
+            const element = document.getElementById(elementId);
+            const statusInfo = statusMap[status] || statusMap[4];
+            element.innerHTML = `
+                ${gpuName}: <span class="badge ${badgeColors[status] || 'bg-secondary'}">
+                    <i class="bi ${statusInfo.iconClass.split(' ')[0]} me-1"></i>
+                    ${statusInfo.text}
+                </span>
+            `;
+        }
+        
+        // Show the game list (go back from detail view)
+        function showGameList() {
+            document.getElementById('gameDetail').style.display = 'none';
+            document.getElementById('gameList').style.display = 'block';
+        }
+        
+        // Sort games by a specific column
+        function sortGames(column, ascending) {
+            allGames.sort((a, b) => {
+                let valA, valB;
+                
+                switch(column) {
+                    case 'name':
+                        valA = (a.Name || '').toLowerCase();
+                        valB = (b.Name || '').toLowerCase();
+                        break;
+                    case 'status':
+                        valA = a.OverallStatus || 4;
+                        valB = b.OverallStatus || 4;
+                        break;
+                    case 'genre':
+                        valA = (a.Genre || '').toLowerCase();
+                        valB = (b.Genre || '').toLowerCase();
+                        break;
+                    case 'system':
+                        valA = (a.Hardware || '').toLowerCase();
+                        valB = (b.Hardware || '').toLowerCase();
+                        break;
+                    default:
+                        valA = (a.Name || '').toLowerCase();
+                        valB = (b.Name || '').toLowerCase();
+                }
+                
+                if (valA < valB) return ascending ? -1 : 1;
+                if (valA > valB) return ascending ? 1 : -1;
+                return 0;
+            });
+            
+            currentSort = { column, ascending };
+            renderGameTable();
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set up search functionality
+            document.getElementById('searchGames').addEventListener('input', function() {
+                const value = this.value.toLowerCase();
+                const rows = document.getElementById('gameTableBody').getElementsByTagName('tr');
+                
+                for (let i = 0; i < rows.length; i++) {
+                    const rowText = rows[i].textContent.toLowerCase();
+                    rows[i].style.display = rowText.includes(value) ? '' : 'none';
+                }
+            });
+            
+            // Set up sorting
+            document.querySelectorAll('th.sortable').forEach(th => {
+                th.addEventListener('click', function() {
+                    const column = this.getAttribute('data-sort');
+                    const ascending = currentSort.column === column ? !currentSort.ascending : true;
+                    sortGames(column, ascending);
+                    
+                    // Update sort indicators
+                    document.querySelectorAll('th.sortable i').forEach(icon => {
+                        icon.className = icon.className.replace('bi-sort-alpha-up', 'bi-sort-alpha-down')
+                                                      .replace('bi-sort-alpha-down', 'bi-sort-alpha-down');
+                    });
+                    
+                    const icon = this.querySelector('i');
+                    icon.className = icon.className.replace(
+                        'bi-sort-alpha-down', 
+                        ascending ? 'bi-sort-alpha-down' : 'bi-sort-alpha-up'
+                    );
+                });
+            });
+        });
+    </script>
+</body>
+</html>
