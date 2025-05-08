@@ -6295,8 +6295,7 @@
     "CommonIssues": [
       {
         "Question": "The game crashes after showing the games logo",
-        "Answer": "Showdown requires the Rapture3D audio software to be installed. You can download it for free from the manufacturers website DOWNLOAD"
-        "Game Edition is the only version needed for install."
+        "Answer": "Showdown requires the Rapture3D audio software to be installed. You can download it for free from the manufacturers website DOWNLOAD. Game Edition is the only version needed for install."
       }
     ],
     "FeaturesNotEmulated": [
