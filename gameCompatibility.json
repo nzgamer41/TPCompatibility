@@ -6303,13 +6303,7 @@
         "Answer": "Showdown requires the Rapture3D audio software to be installed. You can download it for free from the manufacturers website DOWNLOAD. Game Edition is the only version needed for install."
       }
     ],
-    "FeaturesNotEmulated": [
-        {
-          "- Test Menus",
-          "- Coin Inputs",
-          "- Dipswitches"
-        }
-    ],
+    "FeaturesNotEmulated": [],
     "OverallStatus": 2
   },
   {
