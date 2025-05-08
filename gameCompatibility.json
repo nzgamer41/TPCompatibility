@@ -3350,8 +3350,8 @@
     "Genre": "Shooter",
     "MultiplayerType": 4,
     "MultiplayerDetails": null,
-    "NvidiaSupport": 4,
-    "AmdSupport": 4,
+    "NvidiaSupport": 0,
+    "AmdSupport": 0,
     "IntelSupport": 4,
     "SetupDetails": [
       {
@@ -3360,9 +3360,14 @@
         "BulletPoints": []
       }
     ],
-    "CommonIssues": [],
+    " "CommonIssues": [
+      {
+        "Question": "Some libs had to be copied through ElfLdr2 libs folder.",
+        "Answer": "In the main elf game folder, libcri_soundoutput_lindbergh_jr.so and librnalindbergh_jr.so are required to boot the game."
+      }  
+    ],
     "FeaturesNotEmulated": [],
-    "OverallStatus": 4
+    "OverallStatus": 0
   },
   {
     "Id": "HOTDSD",
