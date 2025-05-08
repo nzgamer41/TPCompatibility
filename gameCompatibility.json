@@ -3360,11 +3360,11 @@
         "BulletPoints": []
       }
     ],
-    " "CommonIssues": [
+   "CommonIssues": [
       {
-        "Question": "Some libs had to be copied through ElfLdr2 libs folder.",
-        "Answer": "In the main elf game folder, libcri_soundoutput_lindbergh_jr.so and librnalindbergh_jr.so are required to boot the game."
-      }  
+        "Question": "Some libs had to be copied and pasted through ElfLdr2 libs folder.",
+        "Answer": "In the main elf game folder, libcri_soundoutput_lindbergh_jr.so and librnalindbergh_jr.so are required to boot the game properly."
+      }
     ],
     "FeaturesNotEmulated": [],
     "OverallStatus": 0
