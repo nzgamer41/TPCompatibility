@@ -6265,7 +6265,7 @@
     "CommonIssues": [
       {
         "Question": "AMD GPU Issues",
-        "Answer": "Some things doesn't render"
+        "Answer": "Some gfx do not render properly"
       }
     ],
     "FeaturesNotEmulated": [],
@@ -6287,17 +6287,26 @@
       {
         "Category": "General Setup",
         "Details": "<p style=\"font-weight: bold;\">Game</p>",
-        "BulletPoints": []
+        "BulletPoints": [
+             "Executable is \"Showdown.exe\" found in the \"Showdown\" folder."
+            ]
       }
     ],
     "CommonIssues": [
       {
         "Question": "The game crashes after showing the games logo",
         "Answer": "Showdown requires the Rapture3D audio software to be installed. You can download it for free from the manufacturers website DOWNLOAD"
+        "Game Edition is the only version needed for install."
       }
     ],
-    "FeaturesNotEmulated": [],
-    "OverallStatus": 0
+    "FeaturesNotEmulated": [
+        {
+          "- Test Menus",
+          "- Coin Inputs",
+          "- Dipswitches"
+        }
+    ],
+    "OverallStatus": 2
   },
   {
     "Id": "SilentHill",
@@ -6436,7 +6445,7 @@
     "SetupDetails": [
       {
         "Category": "General Setup",
-        "Details": "<p style=\"font-weight: bold;\">Game</p>\r\n\t\t\t\t\t\t<ul>\r\n\t\t\t\t\t\t\t<li>Executable is \"sdaemon.exe\" found in game's root folder.</li>\r\n\t\t\t\t\t\t</ul>",
+        "Details": "<p style=\"font-weight: bold;\">Game</p>",
         "BulletPoints": [
           "Executable is \"sdaemon.exe\" found in game's root folder."
         ]
@@ -6666,7 +6675,7 @@
     "SetupDetails": [
       {
         "Category": "General Setup",
-        "Details": "<p style=\"font-weight: bold;\">Game</p>\r\n\t\t\t\t\t\t<ul>\r\n\t\t\t\t\t\t\t<li>Executable is \"racing.exe\" found in \"\\bin\\\" folder.</li>\r\n\t\t\t\t\t\t</ul>",
+        "Details": "<p style=\"font-weight: bold;\">Game</p>",
         "BulletPoints": [
           "Executable is \"racing.exe\" found in \"\\bin\\\" folder."
         ]
