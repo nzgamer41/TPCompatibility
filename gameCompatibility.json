@@ -2298,7 +2298,7 @@
     "MultiplayerType": 4,
     "MultiplayerDetails": null,
     "NvidiaSupport": 0,
-    "AmdSupport": 4,
+    "AmdSupport": 0,
     "IntelSupport": 4,
     "SetupDetails": [
       {
@@ -3486,7 +3486,7 @@
     "Genre": "Fighting",
     "MultiplayerType": 4,
     "MultiplayerDetails": null,
-    "NvidiaSupport": 4,
+    "NvidiaSupport": 0,
     "AmdSupport": 0,
     "IntelSupport": 4,
     "SetupDetails": [
@@ -6848,7 +6848,7 @@
     "Genre": "Fighting",
     "MultiplayerType": 4,
     "MultiplayerDetails": null,
-    "NvidiaSupport": 4,
+    "NvidiaSupport": 0,
     "AmdSupport": 0,
     "IntelSupport": 4,
     "SetupDetails": [
@@ -6956,7 +6956,7 @@
     "Genre": "Fighting",
     "MultiplayerType": 4,
     "MultiplayerDetails": null,
-    "NvidiaSupport": 4,
+    "NvidiaSupport": 0,
     "AmdSupport": 0,
     "IntelSupport": 4,
     "SetupDetails": [
@@ -7862,8 +7862,8 @@
     "Genre": "Fighting",
     "MultiplayerType": 4,
     "MultiplayerDetails": null,
-    "NvidiaSupport": 4,
-    "AmdSupport": 4,
+    "NvidiaSupport": 0,
+    "AmdSupport": 0,
     "IntelSupport": 4,
     "SetupDetails": [
       {
