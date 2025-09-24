@@ -7706,6 +7706,37 @@
     "OverallStatus": 0
   },
   {
+    "Id": "tekken51",
+    "Name": "Tekken 5.1",
+    "Hardware": "Namco System 256",
+    "Description": "Tekken 5.1 is a free upgrade to the arcade version of Tekken 5. It includes changes to the character life bars and character select screen, and some changes in character moves to improve game balance. For example, Steve Fox's infinite was removed, and a few other strong moves were toned down.",
+    "IconUrl": "https://raw.githubusercontent.com/teknogods/TeknoParrotUIThumbnails/master/Icons/tekken51.png",
+    "Genre": "Fighting",
+    "MultiplayerType": 1,
+    "MultiplayerDetails": "2 Players can play locally by mapping Player 1 and 2 controls.",
+    "NvidiaSupport": 0,
+    "AmdSupport": 0,
+    "IntelSupport": 0,
+    "SetupDetails": [
+      {
+        "Category": "General System 2X6 Setup",
+        "Details": "You need both the .ZIP file and the .CHD file. The CHD should be in a folder called 'tekken51' NEXT to the ZIP file, otherwise Play! will complain.",
+        "BulletPoints": []
+      }
+    ],
+    "CommonIssues": [
+      {
+        "Question": "My game is stuttering and/or slowing down?",
+        "Answer": "This is a limitation of current System 2X6 emulation."
+      }
+    ],
+    "FeaturesNotEmulated": [
+      "TEKKEN-NET",
+      "Live Monitor"
+    ],
+    "OverallStatus": 1
+  },
+  {
     "Id": "Tekken7",
     "Name": "Tekken 7",
     "Hardware": "Namco ES3X",
