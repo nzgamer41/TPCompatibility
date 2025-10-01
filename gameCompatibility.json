@@ -7706,6 +7706,65 @@
     "OverallStatus": 0
   },
   {
+    "Id": "tekken4",
+    "Name": "Tekken 4",
+    "Hardware": "Namco System 246",
+    "Description": "Tekken 4 marked a major shift in the series by introducing fully interactive 3D environments with walls, uneven terrain, and stage hazards that directly influenced combat. It also featured a reworked fighting system with tighter movement, more grounded combat, and a stronger emphasis on positioning, while its darker visual style and cinematic story presentation gave the game a unique identity compared to previous Tekken titles.",
+    "IconUrl": "https://raw.githubusercontent.com/teknogods/TeknoParrotUIThumbnails/master/Icons/tekken51.png",
+    "Genre": "Fighting",
+    "MultiplayerType": 1,
+    "MultiplayerDetails": "2 Players can play locally by mapping Player 1 and 2 controls.",
+    "NvidiaSupport": 0,
+    "AmdSupport": 0,
+    "IntelSupport": 0,
+    "SetupDetails": [
+      {
+        "Category": "General System 2X6 Setup",
+        "Details": "You need both the .ZIP file and the .CHD file. The CHD should be in a folder called 'tekken4' NEXT to the ZIP file, otherwise Play! will complain.",
+        "BulletPoints": []
+      }
+    ],
+    "CommonIssues": [
+      {
+        "Question": "My game is stuttering and/or slowing down?",
+        "Answer": "This is a limitation of current System 2X6 emulation. You can try switching Graphics Backends between OpenGL and Vulkan and see if performance improves."
+      }
+    ],
+    "FeaturesNotEmulated": [],
+    "OverallStatus": 1
+  },
+  {
+    "Id": "tekken5d",
+    "Name": "Tekken 5 Dark Resurrection",
+    "Hardware": "Namco System 256",
+    "Description": "Tekken 5: Dark Resurrection is an enhanced arcade update to Tekken 5 that introduced new characters (Lili, Dragunov, and Armor King), additional stages, improved graphics, and refined balance adjustments.",
+    "IconUrl": "https://raw.githubusercontent.com/teknogods/TeknoParrotUIThumbnails/master/Icons/tekken5d.png",
+    "Genre": "Fighting",
+    "MultiplayerType": 1,
+    "MultiplayerDetails": "2 Players can play locally by mapping Player 1 and 2 controls.",
+    "NvidiaSupport": 0,
+    "AmdSupport": 0,
+    "IntelSupport": 0,
+    "SetupDetails": [
+      {
+        "Category": "General System 2X6 Setup",
+        "Details": "You need both the .ZIP file and the .CHD file. The CHD should be in a folder called 'tekken5d' NEXT to the ZIP file, otherwise Play! will complain.",
+        "BulletPoints": []
+      }
+    ],
+    "CommonIssues": [
+      {
+        "Question": "My game is stuttering and/or slowing down?",
+        "Answer": "This is a limitation of current System 2X6 emulation. You can try switching Graphics Backends between OpenGL and Vulkan and see if performance improves."
+      }
+    ],
+    "FeaturesNotEmulated": [
+      "TEKKEN-NET",
+      "Live Monitor"
+    ],
+    "OverallStatus": 1
+  },
+  {
     "Id": "tekken51",
     "Name": "Tekken 5.1",
     "Hardware": "Namco System 256",
@@ -7727,7 +7786,7 @@
     "CommonIssues": [
       {
         "Question": "My game is stuttering and/or slowing down?",
-        "Answer": "This is a limitation of current System 2X6 emulation."
+        "Answer": "This is a limitation of current System 2X6 emulation. You can try switching Graphics Backends between OpenGL and Vulkan and see if performance improves."
       }
     ],
     "FeaturesNotEmulated": [
