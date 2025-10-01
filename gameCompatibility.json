@@ -7710,7 +7710,7 @@
     "Name": "Tekken 4",
     "Hardware": "Namco System 246",
     "Description": "Tekken 4 marked a major shift in the series by introducing fully interactive 3D environments with walls, uneven terrain, and stage hazards that directly influenced combat. It also featured a reworked fighting system with tighter movement, more grounded combat, and a stronger emphasis on positioning, while its darker visual style and cinematic story presentation gave the game a unique identity compared to previous Tekken titles.",
-    "IconUrl": "https://raw.githubusercontent.com/teknogods/TeknoParrotUIThumbnails/master/Icons/tekken51.png",
+    "IconUrl": "https://raw.githubusercontent.com/teknogods/TeknoParrotUIThumbnails/master/Icons/tekken4.png",
     "Genre": "Fighting",
     "MultiplayerType": 1,
     "MultiplayerDetails": "2 Players can play locally by mapping Player 1 and 2 controls.",
